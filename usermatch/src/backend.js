@@ -11,28 +11,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log('Connected to MongoDB'));
 
-// MongoDB Schema
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-  name: String,
-  age: Number,
-  interests: [String],
-  travel_spots: [String],
-  hobbies: [String],
-  working_out: Boolean,
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      default: 'Point',
-    },
-    coordinates: {
-      type: [Number],
-      default: [0, 0],
-    },
-  },
-});
 
 userSchema.index({ location: '2dsphere' });
 
@@ -44,9 +22,11 @@ app.use(bodyParser.json());
 // Endpoints
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+
   try {
-    const user = await User.findOne({ username, password });
-    if (user) {
+    const user = await User.findOne({ username });
+
+    if (user && password === user.password) {
       return res.status(200).json({ message: 'Login successful' });
     } else {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -55,6 +35,7 @@ app.post('/login', async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
 
 app.post('/userprofile', async (req, res) => {
   const { username, password, name, age, interests, travel_spots, hobbies, working_out, latitude, longitude } = req.body;

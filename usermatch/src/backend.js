@@ -1,6 +1,8 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const userSchema = require('./userSchema'); 
 
 const app = express();
 const PORT = 3000;
@@ -66,11 +68,13 @@ app.post('/userprofile', async (req, res) => {
   }
 });
 
-app.post('/updatelocation', async (req, res) => {
-  const { username, latitude, longitude } = req.body;
+app.post('/user/:id/location', async (req, res) => {
+  const userId = req.params.id;
+  const { latitude, longitude } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findById(userId);
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -87,6 +91,7 @@ app.post('/updatelocation', async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
 
 app.get('/interests', async (req, res) => {
   const { username } = req.query;

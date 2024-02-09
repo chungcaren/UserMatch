@@ -41,7 +41,9 @@ app.post('/login', async (req, res) => {
 app.post('/userprofile', async (req, res) => {
   const { username, password, name, age, interests, travel_spots, hobbies, working_out, location } = req.body;
 
-  console.log({username, password, name, age, interests, travel_spots, hobbies, working_out, coordinates: location.coordinates})
+  // Extract longitude and latitude from the location object in the request body
+  const { longitude, latitude } = location;
+
   try {
     let user = await User.findOne({ username });
     if (user) {
@@ -67,6 +69,7 @@ app.post('/userprofile', async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
 
 app.post('/user/:id/location', async (req, res) => {
   const userId = req.params.id;

@@ -13,8 +13,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log('Connected to MongoDB'));
 
-
-userSchema.index({ location: '2dsphere' });
+// userSchema.index({ location: '2dsphere' });
 
 const User = mongoose.model('User', userSchema);
 
@@ -40,8 +39,9 @@ app.post('/login', async (req, res) => {
 
 
 app.post('/userprofile', async (req, res) => {
-  const { username, password, name, age, interests, travel_spots, hobbies, working_out, latitude, longitude } = req.body;
+  const { username, password, name, age, interests, travel_spots, hobbies, working_out, location } = req.body;
 
+  console.log({username, password, name, age, interests, travel_spots, hobbies, working_out, coordinates: location.coordinates})
   try {
     let user = await User.findOne({ username });
     if (user) {

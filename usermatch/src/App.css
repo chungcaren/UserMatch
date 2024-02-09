@@ -8,15 +8,17 @@ x/* App.css */
   height: 100vh;
  }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.user-profile {
+  width: 150px;
+  color:black;
+  border: rgb(78, 80, 128) 4px solid;
+  background-color: rgb(193, 200, 232);
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.location-button {
+  width: 102px;
+  border: rgb(55, 74, 120) 4px solid;
 }
 
 .App-header {
@@ -32,13 +34,4 @@ x/* App.css */
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

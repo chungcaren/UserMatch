@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -46,7 +46,6 @@ function App() {
       <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
         <div className="user-profile">
           <ProfileInput/>
-          <SubmitProfile/>
         </div>
       </div>
     </main>
@@ -54,35 +53,12 @@ function App() {
 }
 
 function ProfileInput() {
+  const form = useRef(null);
 
-  return(
-    <div className="profile-input">
-    <form id="userProfile">
-      <label for="username">Username:</label><br/>
-      <input type="text" id="username" name="username"/><br/>
-      <label for="password">Password:</label><br/>
-      <input type="text" id="password" name="password"/><br/>
-      <label for="name">Name:</label><br/>
-      <input type="text" id="name" name="name"/><br/>
-      <label for="age">Age:</label><br/>
-      <input type="text" id="age" age="age"/><br/>
-      <label for="interests">Interests:</label><br/>
-      <input type="text" id="interests" name="interests"/><br/>
-      <label for="travel_spots">Travel Spots:</label><br/>
-      <input type="text" id="travel_spots" name="travel_spots"/><br/>
-      <label for="hobbies">Hobbies:</label><br/>
-      <input type="text" id="hobbies" name="hobbies"/><br/>
-      <label for="working_out">Working Out:</label><br/>
-      <input type="text" id="working_out" name="working_out"/><br/>
-    </form>
-  </div>
-  );
-}
-
-function SubmitProfile() {
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form.current);
+
     const username = formData.get('username');
     const password = formData.get('password');
     const name = formData.get('name');
@@ -106,11 +82,33 @@ function SubmitProfile() {
         travel_spots: travel_spots,
         hobbies: hobbies,
         working_out: working_out,
-      }), 
+      }),  
     }).catch((error) => console.error("Error fetching profile: ", error));
   }
-  return (
-    <input type="submit" value="Submit" onClick={handleClick}/>
+
+  return(
+    <div className="profile-input">
+    <form id="userProfile" ref={form} onSubmit={handleSubmit}>
+      <label for="username">Username:</label><br/>
+      <input type="text" id="username" name="username"/><br/>
+      <label for="password">Password:</label><br/>
+      <input type="text" id="password" name="password"/><br/>
+      <label for="name">Name:</label><br/>
+      <input type="text" id="name" name="name"/><br/>
+      <label for="age">Age:</label><br/>
+      <input type="text" id="age" age="age"/><br/>
+      <label for="interests">Interests:</label><br/>
+      <input type="text" id="interests" name="interests"/><br/>
+      <label for="travel_spots">Travel Spots:</label><br/>
+      <input type="text" id="travel_spots" name="travel_spots"/><br/>
+      <label for="hobbies">Hobbies:</label><br/>
+      <input type="text" id="hobbies" name="hobbies"/><br/>
+      <label for="working_out">Working Out:</label><br/>
+      <input type="text" id="working_out" name="working_out"/><br/>
+
+      <input type="submit" value="Submit" />
+    </form>
+  </div>
   );
 }
 

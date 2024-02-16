@@ -2,7 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const userSchema = require('./userSchema'); 
+const schemas = require('./userSchema'); 
 
 const app = express();
 const PORT = 3000;
@@ -15,7 +15,7 @@ db.once('open', () => console.log('Connected to MongoDB'));
 
 // userSchema.index({ location: '2dsphere' });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', schemas.userSchema);
 
 // Middleware
 app.use(bodyParser.json());
@@ -42,7 +42,8 @@ app.post('/userprofile', async (req, res) => {
   const { username, password, name, age, interests, travel_spots, hobbies, working_out, location } = req.body;
 
   // Extract longitude and latitude from the location object in the request body
-  const { longitude, latitude } = location;
+  const longitude = location.coordinates[0];
+  const latitude = location.coordinates[1];
 
   try {
     let user = await User.findOne({ username });

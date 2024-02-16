@@ -68,6 +68,16 @@ function ProfileInput() {
     const hobbies = formData.get('hobbies');
     const working_out = formData.get('working_out');
 
+
+    // food,travel,studying transforms into: ['food', 'travel', studying]
+    const interests_array = interests.split(',');
+    const travel_spots_array = travel_spots.split(',');
+    const hobbies_array = hobbies.split(',');
+    let working_out_boolean = false;
+    if (working_out === 'yes'){
+      working_out_boolean = true;
+    }
+
     fetch('http://localhost:3000/userprofile', { 
       method: 'POST', 
       headers: { 
@@ -78,10 +88,10 @@ function ProfileInput() {
         password: password,
         name: name,
         age: age,
-        interests: interests,
-        travel_spots: travel_spots,
-        hobbies: hobbies,
-        working_out: working_out,
+        interests: interests_array,
+        travel_spots: travel_spots_array,
+        hobbies: hobbies_array,
+        working_out: working_out_boolean,
       }),  
     }).catch((error) => console.error("Error fetching profile: ", error));
   }

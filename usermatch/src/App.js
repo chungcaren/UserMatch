@@ -70,6 +70,7 @@ function ProfileInput() {
 
 
     // food,travel,studying transforms into: ['food', 'travel', studying]
+    const age_int = Number(age);
     const interests_array = interests.split(',');
     const travel_spots_array = travel_spots.split(',');
     const hobbies_array = hobbies.split(',');
@@ -87,7 +88,7 @@ function ProfileInput() {
         username: username,
         password: password,
         name: name,
-        age: age,
+        age: age_int,
         interests: interests_array,
         travel_spots: travel_spots_array,
         hobbies: hobbies_array,

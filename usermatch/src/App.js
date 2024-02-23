@@ -66,8 +66,9 @@ function ProfileInput() {
     const interests = formData.get('interests');
     const travel_spots = formData.get('travel_spots');
     const hobbies = formData.get('hobbies');
-    const working_out = formData.get('working_out');
-
+    // const working_out = formData.get('working_out');
+    <GetRadioValue/>
+    console.log("Form has been submitted!");
 
     // food,travel,studying transforms into: ['food', 'travel', studying]
     const age_int = Number(age);
@@ -75,9 +76,9 @@ function ProfileInput() {
     const travel_spots_array = travel_spots.split(',');
     const hobbies_array = hobbies.split(',');
     let working_out_boolean = false;
-    if (working_out === 'yes'){
-      working_out_boolean = true;
-    }
+    // if (working_out === 'yes'){
+    //   working_out_boolean = true;
+    // }
 
     fetch('http://localhost:3000/userprofile', { 
       method: 'POST', 
@@ -115,12 +116,26 @@ function ProfileInput() {
       <label for="hobbies">Hobbies:</label><br/>
       <input type="text" id="hobbies" name="hobbies"/><br/>
       <label for="working_out">Working Out:</label><br/>
-      <input type="text" id="working_out" name="working_out"/><br/>
+      <input type="radio" id="working_out_yes" name="working_out" value="yes"/>
+      <label for="yes">Yes</label><br/>
+      <input type="radio" id="working_out_no" name="working_out" value="no"/>
+      <label for="yes">No</label><br/>
 
       <input type="submit" value="Submit" />
     </form>
   </div>
   );
+
+  function GetRadioValue(working_out) {
+    var radio = document.forms[0].elements[working_out];
+    for(var i = 0; i < radio.length; i++){
+      if(radio[i].checked){
+        if(radio[i].value == "Yes"){
+          var working_out_boolean = true;
+        }
+      }
+    }
+  }
 }
 
 export default App;

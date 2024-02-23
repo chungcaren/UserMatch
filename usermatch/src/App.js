@@ -41,10 +41,8 @@ function App() {
         </div>
       </div>
       <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <header>Fill out your user profile!</header>
-      </div>
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
         <div className="user-profile">
+          <h1>Fill out your user profile!</h1>
           <ProfileInput/>
         </div>
       </div>

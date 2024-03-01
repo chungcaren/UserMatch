@@ -3,6 +3,7 @@ import './App.css';
 
 function App() {
   const [location, setLocation] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Define isLoggedIn state
 
   function getLocation () {
     if (navigator.geolocation) {
@@ -31,6 +32,12 @@ function App() {
 
   function error() {
     console.log("Unable to retrieve your location");
+  }
+  
+  function handleLogin() {
+    // Perform login logic
+    // For now, let's assume a successful login if username and password are not empty
+    setIsLoggedIn(true);
   }
 
   const [buddies, setBuddies] = useState([]);
@@ -124,7 +131,7 @@ function ProfileInput() {
     const travel_spots = formData.get('travel_spots');
     const hobbies = formData.get('hobbies');
     // const working_out = formData.get('working_out');
-    <GetRadioValue/>
+    const working_out_boolean = GetRadioValue('working_out');
     console.log("Form has been submitted!");
 
     // food,travel,studying transforms into: ['food', 'travel', studying]
@@ -132,16 +139,12 @@ function ProfileInput() {
     const interests_array = interests.split(',');
     const travel_spots_array = travel_spots.split(',');
     const hobbies_array = hobbies.split(',');
-    let working_out_boolean = false;
-    // if (working_out === 'yes'){
-    //   working_out_boolean = true;
-    // }
 
-    fetch('http://localhost:3000/userprofile', { 
-      method: 'POST', 
-      headers: { 
-        'Content-Type': 'application/json', 
-      }, 
+    fetch('http://localhost:3000/userprofile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         username: username,
         password: password,
@@ -151,32 +154,32 @@ function ProfileInput() {
         travel_spots: travel_spots_array,
         hobbies: hobbies_array,
         working_out: working_out_boolean,
-      }),  
+      }),
     }).catch((error) => console.error("Error fetching profile: ", error));
   }
 
   return(
     <div className="profile-input">
     <form id="userProfile" ref={form} onSubmit={handleSubmit}>
-      <label for="username">Username:</label><br/>
+      <label htmlFor="username">Username:</label><br/>
       <input type="text" id="username" name="username"/><br/>
-      <label for="password">Password:</label><br/>
+      <label htmlFor="password">Password:</label><br/>
       <input type="text" id="password" name="password"/><br/>
-      <label for="name">Name:</label><br/>
+      <label htmlFor="name">Name:</label><br/>
       <input type="text" id="name" name="name"/><br/>
-      <label for="age">Age:</label><br/>
+      <label htmlFor="age">Age:</label><br/>
       <input type="text" id="age" age="age"/><br/>
-      <label for="interests">Interests:</label><br/>
+      <label htmlFor="interests">Interests:</label><br/>
       <input type="text" id="interests" name="interests"/><br/>
-      <label for="travel_spots">Travel Spots:</label><br/>
+      <label htmlFor="travel_spots">Travel Spots:</label><br/>
       <input type="text" id="travel_spots" name="travel_spots"/><br/>
-      <label for="hobbies">Hobbies:</label><br/>
+      <label htmlFor="hobbies">Hobbies:</label><br/>
       <input type="text" id="hobbies" name="hobbies"/><br/>
-      <label for="working_out">Working Out:</label><br/>
+      <label htmlFor="working_out">Working Out:</label><br/>
       <input type="radio" id="working_out_yes" name="working_out" value="yes"/>
-      <label for="yes">Yes</label><br/>
+      <label htmlFor="yes">Yes</label><br/>
       <input type="radio" id="working_out_no" name="working_out" value="no"/>
-      <label for="yes">No</label><br/>
+      <label htmlFor="yes">No</label><br/>
 
       <input type="submit" value="Submit" />
     </form>

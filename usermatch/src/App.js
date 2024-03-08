@@ -35,17 +35,59 @@ function App() {
 
   return (
     <main className="app-main">
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <div className="location-button">
-          <button onClick={getLocation}>Allow Location</button>
+        <div className="left-section">
+          <div className="location-button">
+            <button onClick={getLocation}>Allow Location</button>
+          </div>
+          <div className="user-profile">
+            <h1>Fill out your user profile!</h1>
+            <ProfileInput/>
+          </div>
         </div>
-      </div>
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <div className="user-profile">
-          <h1>Fill out your user profile!</h1>
-          <ProfileInput/>
+        <div className="right-section">
+          <div className="nearby-users">
+            <h1>Matches Near You:</h1>
+            <div className="match1">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>NAME</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+            <div className="match2">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>NAME</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+            <div className="match3">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>NAME</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+          </div>
         </div>
-      </div>
     </main>
   );
 }

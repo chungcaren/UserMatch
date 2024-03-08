@@ -7,15 +7,19 @@ function Login() {
   const [message, setMessage] = useState('');
 
   const handleLogin = () => {
-    // Perform validation or send the username and password to the server for verification
-    // For now, we'll just check if the username is 'user' and password is 'password'
-    if (username === 'user' && password === 'password') {
-      setMessage('Login successful');
-    } else if (username === 'user') {
-      setMessage('Incorrect password. Reset password?');
-    } else {
-      setMessage('Username not found');
-    }
+    const message =
+      username === 'user' && password === 'password'
+        ? 'Login successful'
+        : username === 'user'
+        ? 'Incorrect password. Reset password?'
+        : 'Username not found';
+    setMessage(message);
+  };
+  
+
+  const handleResetPassword = () => {
+    // Implement the logic to reset the password
+    setMessage('Password reset link sent to your email');
   };
 
   return (
@@ -39,6 +43,9 @@ function Login() {
       </div>
       <button onClick={handleLogin}>Login</button>
       <div>{message}</div>
+      {message === 'Incorrect password. Reset password?' && (
+        <button onClick={handleResetPassword}>Reset Password</button>
+      )}
     </div>
   );
 }

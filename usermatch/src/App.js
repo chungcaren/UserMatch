@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
+import Login from './login';
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -52,7 +53,11 @@ function App() {
           <h1>Fill out your user profile!</h1>
           <ProfileInput/>
         </div>
-      </div>
+          <div className="login">
+          <h1>Fill out your user profile!</h1>
+          <Login/>
+        </div>
+        </div>
     </main>
   );
 }

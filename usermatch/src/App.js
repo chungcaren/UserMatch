@@ -1,10 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
-import Login from './login';
 
 function App() {
   const [location, setLocation] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Define isLoggedIn state
 
   function getLocation () {
     if (navigator.geolocation) {
@@ -34,29 +32,78 @@ function App() {
   function error() {
     console.log("Unable to retrieve your location");
   }
-  
-  function handleLogin() {
-    // Perform login logic
-    // For now, let's assume a successful login if username and password are not empty
-    setIsLoggedIn(true);
-  }
+
+  const [buddies, setBuddies] = useState([]);
+
+  useEffect(() => {
+    if (location) {
+      const url = 'http://localhost:3000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
+      fetch(url, {
+        method: 'GET',
+      }).then(
+        async (data) => {
+          const buddies = await data.json();
+          setBuddies(buddies);
+        }
+      ).catch((error) => console.error("Error fetching matches: ", error));
+    }
+  }, [location])
+
 
   return (
     <main className="app-main">
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <div className="location-button">
-          <button onClick={getLocation}>Allow Location</button>
+        <div className="left-section">
+          <div className="location-button">
+            <button onClick={getLocation}>Allow Location</button>
+          </div>
+          <div className="user-profile">
+            <h1>Fill out your user profile!</h1>
+            <ProfileInput/>
+          </div>
         </div>
-      </div>
-      <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
-        <div className="user-profile">
-          <h1>Fill out your user profile!</h1>
-          <ProfileInput/>
-        </div>
-          <div className="login">
-          <h1>Fill out your user profile!</h1>
-          <Login/>
-        </div>
+        <div className="right-section">
+          <div className="nearby-users">
+            <h1>Matches Near You:</h1>
+            <div className="match1">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>{buddies[0] !== undefined ? buddies[0].name : 'NAME'}</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+            <div className="match2">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>{buddies[1] !== undefined ? buddies[1].name : 'NAME'}</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+            <div className="match3">
+              <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+                width={50} 
+                height={50} 
+                alt="usericon"/>
+                <p>{buddies[2] !== undefined ? buddies[2].name : 'NAME'}</p></center>
+              <p>Age:</p>
+              <p>Interests:</p>
+              <p>Travel Spots:</p>
+              <p>Hobbies:</p>
+              <p>Working Out:</p>
+              <p>Distance:</p>
+            </div>
+          </div>
         </div>
     </main>
   );
@@ -77,7 +124,7 @@ function ProfileInput() {
     const travel_spots = formData.get('travel_spots');
     const hobbies = formData.get('hobbies');
     // const working_out = formData.get('working_out');
-    const working_out_boolean = GetRadioValue('working_out');
+    <GetRadioValue/>
     console.log("Form has been submitted!");
 
     // food,travel,studying transforms into: ['food', 'travel', studying]
@@ -85,12 +132,16 @@ function ProfileInput() {
     const interests_array = interests.split(',');
     const travel_spots_array = travel_spots.split(',');
     const hobbies_array = hobbies.split(',');
+    let working_out_boolean = false;
+    // if (working_out === 'yes'){
+    //   working_out_boolean = true;
+    // }
 
-    fetch('http://localhost:3000/userprofile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    fetch('http://localhost:3000/userprofile', { 
+      method: 'POST', 
+      headers: { 
+        'Content-Type': 'application/json', 
+      }, 
       body: JSON.stringify({
         username: username,
         password: password,
@@ -100,32 +151,32 @@ function ProfileInput() {
         travel_spots: travel_spots_array,
         hobbies: hobbies_array,
         working_out: working_out_boolean,
-      }),
+      }),  
     }).catch((error) => console.error("Error fetching profile: ", error));
   }
 
   return(
     <div className="profile-input">
     <form id="userProfile" ref={form} onSubmit={handleSubmit}>
-      <label htmlFor="username">Username:</label><br/>
+      <label for="username">Username:</label><br/>
       <input type="text" id="username" name="username"/><br/>
-      <label htmlFor="password">Password:</label><br/>
+      <label for="password">Password:</label><br/>
       <input type="text" id="password" name="password"/><br/>
-      <label htmlFor="name">Name:</label><br/>
+      <label for="name">Name:</label><br/>
       <input type="text" id="name" name="name"/><br/>
-      <label htmlFor="age">Age:</label><br/>
+      <label for="age">Age:</label><br/>
       <input type="text" id="age" age="age"/><br/>
-      <label htmlFor="interests">Interests:</label><br/>
+      <label for="interests">Interests:</label><br/>
       <input type="text" id="interests" name="interests"/><br/>
-      <label htmlFor="travel_spots">Travel Spots:</label><br/>
+      <label for="travel_spots">Travel Spots:</label><br/>
       <input type="text" id="travel_spots" name="travel_spots"/><br/>
-      <label htmlFor="hobbies">Hobbies:</label><br/>
+      <label for="hobbies">Hobbies:</label><br/>
       <input type="text" id="hobbies" name="hobbies"/><br/>
-      <label htmlFor="working_out">Working Out:</label><br/>
+      <label for="working_out">Working Out:</label><br/>
       <input type="radio" id="working_out_yes" name="working_out" value="yes"/>
-      <label htmlFor="yes">Yes</label><br/>
+      <label for="yes">Yes</label><br/>
       <input type="radio" id="working_out_no" name="working_out" value="no"/>
-      <label htmlFor="yes">No</label><br/>
+      <label for="yes">No</label><br/>
 
       <input type="submit" value="Submit" />
     </form>

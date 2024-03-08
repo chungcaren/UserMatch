@@ -9,16 +9,65 @@ x/* App.css */
  }
 
 .user-profile {
-  width: 200px;
+  width: 450px;
   color:black;
   border: rgb(78, 80, 128) 4px solid;
   background-color: rgb(193, 200, 232);
   padding: 20px;
+  float: left;
+  margin-left: 120px;
+  margin-top: 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .location-button {
   width: 102px;
-  border: rgb(55, 74, 120) 4px solid;
+  float: top;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.left-section {
+  width: 50%;
+  float: left;
+}
+
+.right-section {
+  width: 50%;
+  float: right;
+}
+
+.match1 {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.match2 {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.match3 {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .App-header {

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
+import Login from './login';
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -110,6 +111,10 @@ function App() {
               <p>Working Out:</p>
               <p>Distance:</p>
             </div>
+          </div>
+          <div className="login">
+            <h1>Fill out your user profile!</h1>
+            <Login/>
           </div>
         </div>
     </main>

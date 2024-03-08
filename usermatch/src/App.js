@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -33,6 +33,23 @@ function App() {
     console.log("Unable to retrieve your location");
   }
 
+  const [buddies, setBuddies] = useState([]);
+
+  useEffect(() => {
+    if (location) {
+      const url = 'http://localhost:3000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
+      fetch(url, {
+        method: 'GET',
+      }).then(
+        async (data) => {
+          const buddies = await data.json();
+          setBuddies(buddies);
+        }
+      ).catch((error) => console.error("Error fetching matches: ", error));
+    }
+  }, [location])
+
+
   return (
     <main className="app-main">
         <div className="left-section">
@@ -52,7 +69,7 @@ function App() {
                 width={50} 
                 height={50} 
                 alt="usericon"/>
-                <p>NAME</p></center>
+                <p>{buddies[0] !== undefined ? buddies[0].name : 'NAME'}</p></center>
               <p>Age:</p>
               <p>Interests:</p>
               <p>Travel Spots:</p>
@@ -65,7 +82,7 @@ function App() {
                 width={50} 
                 height={50} 
                 alt="usericon"/>
-                <p>NAME</p></center>
+                <p>{buddies[1] !== undefined ? buddies[1].name : 'NAME'}</p></center>
               <p>Age:</p>
               <p>Interests:</p>
               <p>Travel Spots:</p>
@@ -78,7 +95,7 @@ function App() {
                 width={50} 
                 height={50} 
                 alt="usericon"/>
-                <p>NAME</p></center>
+                <p>{buddies[2] !== undefined ? buddies[2].name : 'NAME'}</p></center>
               <p>Age:</p>
               <p>Interests:</p>
               <p>Travel Spots:</p>

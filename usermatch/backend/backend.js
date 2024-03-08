@@ -1,11 +1,13 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
 const bodyParser = require('body-parser');
 const schemas = require('./userSchema'); 
 
 const app = express();
 const PORT = 3000;
+app.use(cors());
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/travelplans', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -13,7 +15,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log('Connected to MongoDB'));
 
-// userSchema.index({ location: '2dsphere' });
+schemas.userSchema.index({ location: '2dsphere' });
 
 const User = mongoose.model('User', schemas.userSchema);
 
@@ -137,7 +139,7 @@ app.get('/possiblematches', async (req, res) => {
         $near: {
           $geometry: {
             type: 'Point',
-            coordinates: [parseFloat(longitude), parseFloat(latitude)],
+            coordinates: [parseFloat(latitude), parseFloat(longitude)],
           },
           $maxDistance: 100000, // Maximum distance in meters (adjust as needed)
         },

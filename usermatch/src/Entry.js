@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function Login() {
+function Login({ handleLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleLogin = async () => {
+  const handleLoginClick = async () => {
     try {
       const response = await fetch('http://your-server-url.com/authenticate', {
         method: 'POST',
@@ -19,7 +19,12 @@ function Login() {
         }),
       });
       const data = await response.json();
-      setMessage(response.ok ? 'Login successful' : 'Username not found');
+      if (response.ok) {
+        handleLogin(username); // Call the handleLogin function passed from the parent component
+        setMessage('Login successful');
+      } else {
+        setMessage('Username not found');
+      }
     } catch (error) {
       console.error('Error logging in:', error);
       setMessage('Error logging in');
@@ -50,7 +55,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLoginClick}>Login</button>
       <div>{message}</div>
       {message === 'Incorrect password. Reset password?' && (
         <button onClick={handleResetPassword}>Reset Password</button>
@@ -58,6 +63,5 @@ function Login() {
     </div>
   );
 }
-
 
 export default Login;

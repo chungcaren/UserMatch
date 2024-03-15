@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react'; // Import React and necessary hooks
 import './App.css'; // Import the CSS file for styling
 

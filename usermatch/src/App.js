@@ -136,23 +136,6 @@ function App() {
     return false;
   }
 
-  const [buddies, setBuddies] = useState([]);
-
-  useEffect(() => {
-    if (location) {
-      const url = 'http://localhost:3000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
-      fetch(url, {
-        method: 'GET',
-      }).then(
-        async (data) => {
-          const buddies = await data.json();
-          setBuddies(buddies);
-        }
-      ).catch((error) => console.error("Error fetching matches: ", error));
-    }
-  }, [location])
-
-
   return (
     <main className="app-main">
       <div className="left-section">

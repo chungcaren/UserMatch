@@ -6,16 +6,25 @@ function Login() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleLogin = () => {
-    const message =
-      username === 'user' && password === 'password'
-        ? 'Login successful'
-        : username === 'user'
-        ? 'Incorrect password. Reset password?'
-        : 'Username not found';
-    setMessage(message);
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://your-server-url.com/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+      const data = await response.json();
+      setMessage(response.ok ? 'Login successful' : 'Username not found');
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setMessage('Error logging in');
+    }
   };
-  
 
   const handleResetPassword = () => {
     // Implement the logic to reset the password

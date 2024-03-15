@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'; // Import React and necessary hooks
 import './App.css'; // Import the CSS file for styling
+import Modal from "./Components/Modal";
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -32,6 +33,8 @@ function App() {
   function error() {
     console.log("Unable to retrieve your location");
   }
+
+  const [openModal, setOpenModal] = useState(true)
 
   const [buddies, setBuddies] = useState([]);
 
@@ -68,14 +71,10 @@ function App() {
 
       console.log("Form has been submitted!");
 
-      // food,travel,studying transforms into: ['food', 'travel', studying]
       const age_int = Number(age);
       const interests_array = interests.split(',');
       const travel_spots_array = travel_spots.split(',');
       const hobbies_array = hobbies.split(',');
-      // if (working_out === 'yes'){
-      //   working_out_boolean = true;
-      // }
 
       fetch('http://localhost:3000/userprofile', {
         method: 'POST',
@@ -138,6 +137,7 @@ function App() {
 
   return (
     <main className="app-main">
+      {openModal && <Modal closeModal={setOpenModal} />}
       <div className="left-section">
         <div className="location-button">
           <button onClick={getLocation}>Allow Location</button>
@@ -160,8 +160,8 @@ function App() {
             <p>Interests: {buddies[0] !== undefined ? buddies[0].interests : ''}</p>
             <p>Travel Spots: {buddies[0] !== undefined ? buddies[0].travel_spots : ''}</p>
             <p>Hobbies: {buddies[0] !== undefined ? buddies[0].hobbies : ''}</p>
-            <p>Working Out: {buddies[0] !== undefined ? buddies[0].working_out_boolean : ''}</p>
-            <p>Distance: </p>
+            <p>Working Out: {buddies[0] !== undefined ? String(buddies[0].working_out) : ''}</p>
+            <p>Distance: With 25 miles</p> 
           </div>
           <div className="match2">
             <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
@@ -173,8 +173,8 @@ function App() {
             <p>Interests: {buddies[1] !== undefined ? buddies[1].interests : ''}</p>
             <p>Travel Spots: {buddies[1] !== undefined ? buddies[1].travel_spots : ''}</p>
             <p>Hobbies: {buddies[1] !== undefined ? buddies[1].hobbies : ''}</p>
-            <p>Working Out: {buddies[1] !== undefined ? buddies[1].working_out_boolean : ''}</p>
-            <p>Distance:</p>
+            <p>Working Out: {buddies[1] !== undefined ? String(buddies[1].working_out) : ''}</p>
+            <p>Distance: Within 25 miles</p>
           </div>
           <div className="match3">
             <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
@@ -186,7 +186,8 @@ function App() {
             <p>Interests: {buddies[2] !== undefined ? buddies[2].interests : ''}</p>
             <p>Travel Spots: {buddies[2] !== undefined ? buddies[2].travel_spots : ''}</p>
             <p>Hobbies: {buddies[2] !== undefined ? buddies[2].hobbies : ''}</p>
-            <p>Working Out: {buddies[2] !== undefined ? buddies[2].working_out_boolean : ''}</p>
+            <p>Working Out: {buddies[2] !== undefined ? String(buddies[2].working_out) : ''}</p>
+            <p>Distance: Within 25 miles</p>
           </div>
         </div>
       </div>

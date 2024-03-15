@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react'; // Import React and necessary hooks
 import './App.css'; // Import the CSS file for styling
 
@@ -151,43 +152,42 @@ function App() {
         <div className="nearby-users">
           <h1>Matches Near You:</h1>
           <div className="match1">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-              width={50}
-              height={50}
-              alt="usericon" />
+            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+              width={50} 
+              height={50} 
+              alt="usericon"/>
               <p>{buddies[0] !== undefined ? buddies[0].name : 'NAME'}</p></center>
-            <p>Age:</p>
-            <p>Interests:</p>
-            <p>Travel Spots:</p>
-            <p>Hobbies:</p>
-            <p>Working Out:</p>
-            <p>Distance:</p>
+            <p>Age: {buddies[0] !== undefined ? buddies[0].age : ''}</p>
+            <p>Interests: {buddies[0] !== undefined ? buddies[0].interests : ''}</p>
+            <p>Travel Spots: {buddies[0] !== undefined ? buddies[0].travel_spots : ''}</p>
+            <p>Hobbies: {buddies[0] !== undefined ? buddies[0].hobbies : ''}</p>
+            <p>Working Out: {buddies[0] !== undefined ? buddies[0].working_out_boolean : ''}</p>
+            <p>Distance: </p>
           </div>
           <div className="match2">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-              width={50}
-              height={50}
-              alt="usericon" />
+            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+              width={50} 
+              height={50} 
+              alt="usericon"/>
               <p>{buddies[1] !== undefined ? buddies[1].name : 'NAME'}</p></center>
-            <p>Age:</p>
-            <p>Interests:</p>
-            <p>Travel Spots:</p>
-            <p>Hobbies:</p>
-            <p>Working Out:</p>
+            <p>Age: {buddies[1] !== undefined ? buddies[1].age : ''}</p>
+            <p>Interests: {buddies[1] !== undefined ? buddies[1].interests : ''}</p>
+            <p>Travel Spots: {buddies[1] !== undefined ? buddies[1].travel_spots : ''}</p>
+            <p>Hobbies: {buddies[1] !== undefined ? buddies[1].hobbies : ''}</p>
+            <p>Working Out: {buddies[1] !== undefined ? buddies[1].working_out_boolean : ''}</p>
             <p>Distance:</p>
           </div>
           <div className="match3">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-              width={50}
-              height={50}
-              alt="usericon" />
+            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
+              width={50} 
+              height={50} 
+              alt="usericon"/>
               <p>{buddies[2] !== undefined ? buddies[2].name : 'NAME'}</p></center>
-            <p>Age:</p>
-            <p>Interests:</p>
-            <p>Travel Spots:</p>
-            <p>Hobbies:</p>
-            <p>Working Out:</p>
-            <p>Distance:</p>
+            <p>Age: {buddies[2] !== undefined ? buddies[2].age : ''}</p>
+            <p>Interests: {buddies[2] !== undefined ? buddies[2].interests : ''}</p>
+            <p>Travel Spots: {buddies[2] !== undefined ? buddies[2].travel_spots : ''}</p>
+            <p>Hobbies: {buddies[2] !== undefined ? buddies[2].hobbies : ''}</p>
+            <p>Working Out: {buddies[2] !== undefined ? buddies[2].working_out_boolean : ''}</p>
           </div>
         </div>
       </div>

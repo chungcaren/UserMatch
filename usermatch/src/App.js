@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'; // Import React and necessary hooks
-import './App.css'; // Import the CSS file for styling
+import React, { useState, useRef, useEffect } from 'react';
+import './App.css';
 
 function App() {
   const [location, setLocation] = useState(null);
@@ -17,7 +17,7 @@ function App() {
     const longitude = position.coords.longitude;
     setLocation({ latitude, longitude });
 
-    fetch('http://localhost:3000/updateLocation', {
+    fetch('http://localhost:4000/userprofile', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,11 @@ function App() {
         latitude: latitude,
         longitude: longitude,
       }),
-    }).catch((error) => console.error("Error fetching location: ", error));
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to update location');
+      }
+    }).catch(error => console.error("Error updating location: ", error));
   }
 
   function error() {
@@ -37,7 +41,7 @@ function App() {
 
   useEffect(() => {
     if (location) {
-      const url = 'http://localhost:3000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
+      const url = 'http://localhost:4000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
       fetch(url, {
         method: 'GET',
       }).then(
@@ -48,7 +52,6 @@ function App() {
       ).catch((error) => console.error("Error fetching matches: ", error));
     }
   }, [location]);
-
 
   function ProfileInput() {
     const form = useRef(null);
@@ -66,18 +69,12 @@ function App() {
       const hobbies = formData.get('hobbies');
       const working_out_boolean = GetRadioValue('working_out');
 
-      console.log("Form has been submitted!");
-
-      // food,travel,studying transforms into: ['food', 'travel', studying]
       const age_int = Number(age);
       const interests_array = interests.split(',');
       const travel_spots_array = travel_spots.split(',');
       const hobbies_array = hobbies.split(',');
-      // if (working_out === 'yes'){
-      //   working_out_boolean = true;
-      // }
 
-      fetch('http://localhost:3000/userprofile', {
+      fetch('http://localhost:4000/userprofile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +89,11 @@ function App() {
           hobbies: hobbies_array,
           working_out: working_out_boolean,
         }),
-      }).catch((error) => console.error("Error fetching profile: ", error));
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to submit profile');
+        }
+      }).catch(error => console.error("Error submitting profile: ", error));
     };
 
     return (

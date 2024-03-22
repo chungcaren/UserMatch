@@ -137,11 +137,8 @@ function App() {
 
   return (
     <main className="app-main">
-      {openModal && <Modal closeModal={setOpenModal} />}
+      {openModal && <Modal closeModal={setOpenModal} getLocation={getLocation} />}
       <div className="left-section">
-        <div className="location-button">
-          <button onClick={getLocation}>Allow Location</button>
-        </div>
         <div className="user-profile">
           <h1>Fill out your user profile!</h1>
           <ProfileInput />

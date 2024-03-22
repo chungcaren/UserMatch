@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
 
-function Login({ handleLogin }) {
+function Entry({ handleLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleLoginClick = async () => {
     try {
-      const response = await fetch('http://your-server-url.com/authenticate', {
+      const response = await fetch('http://localhost:3000/login', { // Replace with your login API endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,11 +57,11 @@ function Login({ handleLogin }) {
       </div>
       <button onClick={handleLoginClick}>Login</button>
       <div>{message}</div>
-      {message === 'Incorrect password. Reset password?' && (
+      {message === 'Username not found' && (
         <button onClick={handleResetPassword}>Reset Password</button>
       )}
     </div>
   );
 }
 
-export default Login;
+export default Entry;

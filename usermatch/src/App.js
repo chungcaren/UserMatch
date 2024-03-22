@@ -1,8 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
+import Login from './Entry';
+import Modal from './Components/Modal';
 
 function App() {
   const [location, setLocation] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [openModal, setOpenModal] = useState(true);
+  const [buddies, setBuddies] = useState([]);
+
+  const handleLogin = (username) => {
+    setIsLoggedIn(true);
+    setUsername(username);
+  };
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -17,7 +28,7 @@ function App() {
     const longitude = position.coords.longitude;
     setLocation({ latitude, longitude });
 
-    fetch('http://localhost:4000/userprofile', {
+    fetch('http://localhost:3000/userprofile', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,19 +48,15 @@ function App() {
     console.log("Unable to retrieve your location");
   }
 
-  const [buddies, setBuddies] = useState([]);
-
   useEffect(() => {
     if (location) {
-      const url = 'http://localhost:4000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
+      const url = `http://localhost:3000/possiblematches?latitude=${location.latitude}&longitude=${location.longitude}&username=albert`;
       fetch(url, {
         method: 'GET',
-      }).then(
-        async (data) => {
-          const buddies = await data.json();
-          setBuddies(buddies);
-        }
-      ).catch((error) => console.error("Error fetching matches: ", error));
+      }).then(async (data) => {
+        const buddies = await data.json();
+        setBuddies(buddies);
+      }).catch((error) => console.error("Error fetching matches: ", error));
     }
   }, [location]);
 
@@ -69,12 +76,14 @@ function App() {
       const hobbies = formData.get('hobbies');
       const working_out_boolean = GetRadioValue('working_out');
 
+      console.log("Form has been submitted!");
+
       const age_int = Number(age);
       const interests_array = interests.split(',');
       const travel_spots_array = travel_spots.split(',');
       const hobbies_array = hobbies.split(',');
 
-      fetch('http://localhost:4000/userprofile', {
+      fetch('http://localhost:3000/userprofile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,17 +98,13 @@ function App() {
           hobbies: hobbies_array,
           working_out: working_out_boolean,
         }),
-      }).then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to submit profile');
-        }
-      }).catch(error => console.error("Error submitting profile: ", error));
+      }).catch((error) => console.error("Error fetching profile: ", error));
     };
 
     return (
       <div className="profile-input">
         <form id="userProfile" ref={form} onSubmit={handleSubmit}>
-          <label htmlFor="username">Username:</label><br />
+        <label htmlFor="username">Username:</label><br />
           <input type="text" id="username" name="username" /><br />
           <label htmlFor="password">Password:</label><br />
           <input type="text" id="password" name="password" /><br />
@@ -138,60 +143,52 @@ function App() {
   }
 
   return (
-    <main className="app-main">
-      <div className="left-section">
-        <div className="location-button">
-          <button onClick={getLocation}>Allow Location</button>
-        </div>
-        <div className="user-profile">
-          <h1>Fill out your user profile!</h1>
-          <ProfileInput />
-        </div>
-      </div>
-      <div className="right-section">
-        <div className="nearby-users">
-          <h1>Matches Near You:</h1>
-          <div className="match1">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
-              width={50} 
-              height={50} 
-              alt="usericon"/>
-              <p>{buddies[0] !== undefined ? buddies[0].name : 'NAME'}</p></center>
-            <p>Age: {buddies[0] !== undefined ? buddies[0].age : ''}</p>
-            <p>Interests: {buddies[0] !== undefined ? buddies[0].interests : ''}</p>
-            <p>Travel Spots: {buddies[0] !== undefined ? buddies[0].travel_spots : ''}</p>
-            <p>Hobbies: {buddies[0] !== undefined ? buddies[0].hobbies : ''}</p>
-            <p>Working Out: {buddies[0] !== undefined ? buddies[0].working_out_boolean : ''}</p>
-            <p>Distance: </p>
+    <div className="App">
+      {isLoggedIn ? (
+        <h1>Welcome, {username}!</h1>
+      ) : (
+        <h1>Please log in.</h1>
+      )}
+      {isLoggedIn ? (
+        <button onClick={() => setIsLoggedIn(false)}>Logout</button>
+      ) : (
+        <Login handleLogin={handleLogin} />
+      )}
+      {openModal && <Modal closeModal={() => setOpenModal(false)} getLocation={getLocation} />}
+      <main className="app-main">
+        <div className="left-section">
+          <div className="location-button">
+            <button onClick={getLocation}>Allow Location</button>
           </div>
-          <div className="match2">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
-              width={50} 
-              height={50} 
-              alt="usericon"/>
-              <p>{buddies[1] !== undefined ? buddies[1].name : 'NAME'}</p></center>
-            <p>Age: {buddies[1] !== undefined ? buddies[1].age : ''}</p>
-            <p>Interests: {buddies[1] !== undefined ? buddies[1].interests : ''}</p>
-            <p>Travel Spots: {buddies[1] !== undefined ? buddies[1].travel_spots : ''}</p>
-            <p>Hobbies: {buddies[1] !== undefined ? buddies[1].hobbies : ''}</p>
-            <p>Working Out: {buddies[1] !== undefined ? buddies[1].working_out_boolean : ''}</p>
-            <p>Distance:</p>
-          </div>
-          <div className="match3">
-            <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
-              width={50} 
-              height={50} 
-              alt="usericon"/>
-              <p>{buddies[2] !== undefined ? buddies[2].name : 'NAME'}</p></center>
-            <p>Age: {buddies[2] !== undefined ? buddies[2].age : ''}</p>
-            <p>Interests: {buddies[2] !== undefined ? buddies[2].interests : ''}</p>
-            <p>Travel Spots: {buddies[2] !== undefined ? buddies[2].travel_spots : ''}</p>
-            <p>Hobbies: {buddies[2] !== undefined ? buddies[2].hobbies : ''}</p>
-            <p>Working Out: {buddies[2] !== undefined ? buddies[2].working_out_boolean : ''}</p>
+          <div className="user-profile">
+            <h1>Fill out your user profile!</h1>
+            <ProfileInput />
           </div>
         </div>
-      </div>
-    </main>
+        <div className="right-section">
+          <div className="nearby-users">
+            <h1>Matches Near You:</h1>
+            {buddies.map((buddy, index) => (
+              <div className="match" key={index}>
+                <center>
+                  <img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
+                    width={50}
+                    height={50}
+                    alt="usericon" />
+                  <p>{buddy.name}</p>
+                </center>
+                <p>Age: {buddy.age}</p>
+                <p>Interests: {buddy.interests.join(', ')}</p>
+                <p>Travel Spots: {buddy.travel_spots.join(', ')}</p>
+                <p>Hobbies: {buddy.hobbies.join(', ')}</p>
+                <p>Working Out: {buddy.working_out ? 'Yes' : 'No'}</p>
+                <p>Distance: {index === 0 ? 'With' : 'Within'} 25 miles</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }
 

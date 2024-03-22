@@ -1,86 +1,98 @@
-x/* App.css */
+/* App.css */
 .App {
   font-family: Arial, sans-serif;
   background-color: #c4d0ff;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
- }
-
-.user-profile {
-  width: 450px;
-  color:black;
-  border: rgb(78, 80, 128) 4px solid;
-  background-color: rgb(193, 200, 232);
-  padding: 20px;
-  float: left;
-  margin-left: 120px;
-  margin-top: 20px;
-  border-radius: 30px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.location-button {
-  width: 102px;
-  float: top;
-  margin: auto;
-  text-align: center;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.left-section {
-  width: 50%;
-  float: left;
-}
-
-.right-section {
-  width: 50%;
-  float: right;
-}
-
-.match1 {
-  display: inline-block;
-  border: 1px solid rgb(0, 4, 255);
-  padding: 1rem 1rem;
-  width: 200px;
-  margin: 20px;
-  vertical-align: middle;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.match2 {
-  display: inline-block;
-  border: 1px solid rgb(0, 4, 255);
-  padding: 1rem 1rem;
-  width: 200px;
-  margin: 20px;
-  vertical-align: middle;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.match3 {
-  display: inline-block;
-  border: 1px solid rgb(0, 4, 255);
-  padding: 1rem 1rem;
-  width: 200px;
-  margin: 20px;
-  vertical-align: middle;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.user-profile {
+  max-width: 350px;
+  width: 100%;
+  color: black;
+  border: 4px solid rgb(78, 80, 128);
+  background-color: rgb(193, 200, 232);
+  padding: 20px;
+  margin-top: 30px;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: left; /* Align the text inside user-profile to the left */
+}
+
+
+.app-main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.left-section,
+.right-section {
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align items to the right */
+}
+
+.nearby-users {
+  margin-top: 20px; /* Add margin to separate from top */
+  width: 350px; /* Limit width to prevent full width */
+}
+
+
+.match {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.match img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.match p {
+  margin: 5px 0;
+}
+
+.location-button {
+  margin-bottom: 20px;
+}
+
+.profile-input {
+  text-align: left;
+}
+
+.profile-input label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.profile-input input[type="text"],
+.profile-input input[type="radio"] {
+  margin-bottom: 10px;
+}
+
+.profile-input input[type="submit"] {
+  margin-top: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+.nearby-users {
+  margin-left: 20px; 
 }

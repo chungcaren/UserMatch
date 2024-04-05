@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const schemas = require('./userSchema'); 
 
 const app = express();
-const PORT = 4000; // Use a different port for the backend
-app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from the frontend
+const PORT = 3000;
+app.use(cors());
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/travelplans', { useNewUrlParser: true, useUnifiedTopology: true });

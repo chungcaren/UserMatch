@@ -1,98 +1,139 @@
-/* App.css */
+x/* App.css */
 .App {
   font-family: Arial, sans-serif;
   background-color: #c4d0ff;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 20px;
-}
+  align-items: center;
+  height: 100vh;
+ }
 
 .user-profile {
-  max-width: 350px;
-  width: 100%;
-  color: black;
-  border: 4px solid rgb(78, 80, 128);
+  width: 370px;
+  color:black;
+  border: rgb(78, 80, 128) 4px solid;
   background-color: rgb(193, 200, 232);
   padding: 20px;
+  float: top;
+  margin: auto;
   margin-top: 30px;
   border-radius: 30px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  text-align: left; /* Align the text inside user-profile to the left */
 }
 
-
-.app-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+.left-section {
+  float: center;
 }
 
-.left-section,
 .right-section {
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Align items to the right */
+  float: center;
 }
 
-.nearby-users {
-  margin-top: 20px; /* Add margin to separate from top */
-  width: 350px; /* Limit width to prevent full width */
-}
-
-
-.match {
+.match1 {
   display: inline-block;
   border: 1px solid rgb(0, 4, 255);
-  padding: 1rem;
-  width: 100%;
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.match2 {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.match3 {
+  display: inline-block;
+  border: 1px solid rgb(0, 4, 255);
+  padding: 1rem 1rem;
+  width: 200px;
+  margin: 20px;
+  vertical-align: middle;
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.match img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.match p {
-  margin: 5px 0;
+.App-link {
+  color: #61dafb;
 }
 
-.location-button {
-  margin-bottom: 20px;
+.mainContainer {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.profile-input {
-  text-align: left;
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  font-size: 64px;
+  font-weight: bolder;
+  align-items: center;
+  justify-content: center;
 }
 
-.profile-input label {
-  display: block;
-  margin-bottom: 5px;
+.resultContainer, .historyItem { 
+  flex-direction: row;
+  display: flex;
+  width: 400px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.profile-input input[type="text"],
-.profile-input input[type="radio"] {
-  margin-bottom: 10px;
+.historyContainer {
+  flex-direction: column;
+  display: flex;
+  height: 200px;
+  align-items: center;
+  flex-grow: 5;
+  justify-content: flex-start;
 }
 
-.profile-input input[type="submit"] {
-  margin-top: 10px;
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 260px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
+.inputContainer > .errorLabel {
+  color: red;
+  font-size: 12px;
+}
 
-
-.nearby-users {
-  margin-left: 20px; 
+.inputBox {
+  height: 48px;
+  width: 400px;
+  font-size: large;
+  border-radius: 8px;
+  border: 1px solid grey;
+  padding-left: 8px;
 }

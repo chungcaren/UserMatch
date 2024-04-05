@@ -147,7 +147,7 @@ function App() {
 
   function RevealUserMatches() {
     return(
-      <div className="nearby-users">
+      <div className="user-matches">
       <h1>Matches Near You:</h1>
       <div className="match1">
         <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" 
@@ -188,6 +188,10 @@ function App() {
         <p>Working Out: {buddies[2] !== undefined ? String(buddies[2].working_out) : ''}</p>
         <p>Distance: Within 25 miles</p>
       </div>
+        <button onClick={() => {
+                    setShowForm((showForm) => !showForm)
+                    setShowMatches((showMatches) => !showMatches)
+                }} id="again-button">Try Again</button>
     </div>
     )
   }
@@ -195,12 +199,8 @@ function App() {
   return (
     <main className="app-main">
       {openModal && <Modal closeModal={setOpenModal} getLocation={getLocation} />}
-      <div className="left-section">
-        {showForm && <ProfileInput />}
-      </div>
-      <div className="right-section">
-        {showMatches && <RevealUserMatches />}
-      </div>
+      {showForm && <ProfileInput />}
+      {showMatches && <RevealUserMatches />}
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './home';
 import Login from './login';
 import './App.css';
 import Modal from "./Components/Modal";
@@ -181,7 +180,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Home email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+                    <Route path="/" element={<Modal email={email} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
                     <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setEmail={setEmail} />} />
                 </Routes>
             </BrowserRouter>

@@ -1,20 +1,41 @@
-
-import React from 'react'
+import React from "react"
 import "./Modal.css";
+import { useNavigate } from "react-router-dom";
 
-function Modal({ closeModal, getLocation }) {
-    return(
-        <div className="modal-background">
-            <div className="modal-box">
-                <center><h1>Welcome!</h1></center>
-                <p>Let's get started by allowing access to your location. This will be needed to find your matches.</p>
-                <button onClick={() => {
-                    getLocation();
-                    closeModal(false);
-                }} id="allow-button">Allow Location</button>
-            </div>
+const Modal = (props) => {
+    const { loggedIn, email } = props
+    const navigate = useNavigate();
+    
+    const onButtonClick = () => {
+        if (loggedIn) {
+            localStorage.removeItem("user")
+            props.setLoggedIn(false)
+        } else {
+            navigate("/login")
+        }
+    }
+
+
+    return <div className="mainContainer">
+        <div className={"titleContainer"}>
+            <div>Welcome!</div>
         </div>
-    )
+        <div>
+            This is the home page.
+        </div>
+        <div className={"buttonContainer"}>
+            <input
+                className={"inputButton"}
+                type="button"
+                onClick={onButtonClick}
+                value={loggedIn ? "Log out" : "Log in"} />
+            {(loggedIn ? <div>
+                Your email address is {email}
+            </div> : <div/>)}
+        </div>
+
+
+    </div>
 }
 
-export default Modal;
+export default Modal

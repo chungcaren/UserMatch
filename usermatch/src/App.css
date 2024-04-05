@@ -22,13 +22,11 @@ x/* App.css */
 }
 
 .left-section {
-  width: 50%;
-  float: left;
+  float: center;
 }
 
 .right-section {
-  width: 50%;
-  float: right;
+  float: center;
 }
 
 .match1 {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './home';
 import Login from './login';
@@ -14,6 +14,7 @@ function App() {
     const [openModal, setOpenModal] = useState(true);
     const [buddies, setBuddies] = useState([]);
 
+    // Handle user authentication
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"))
 
@@ -35,6 +36,7 @@ function App() {
         });
     }, []);
 
+    // Fetch possible matches based on location
     useEffect(() => {
         if (location) {
           const url = `http://localhost:3000/possiblematches?latitude=${location.latitude}&longitude=${location.longitude}&username=albert`;
@@ -49,6 +51,7 @@ function App() {
         }
     }, [location]);
 
+    // Retrieve user's location
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(success, error);
@@ -57,6 +60,7 @@ function App() {
         }
     }
 
+    // Success callback for geolocation
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -71,55 +75,46 @@ function App() {
                 latitude: latitude,
                 longitude: longitude,
             }),
-        }).catch((error) => console.error("Error fetching location: ", error));
+        }).catch((error) => console.error("Error updating location: ", error));
     }
 
+    // Error callback for geolocation
     function error() {
         console.log("Unable to retrieve your location");
     }
 
+    // Profile form input and submission
     function ProfileInput() {
-        const form = useRef(null);
+        const form = React.useRef(null);
 
         const handleSubmit = (e) => {
-            setShowForm((showForm) => !showForm)
-            setShowMatches((showMatches) => !showMatches)
+            setShowForm(!showForm)
+            setShowMatches(!showMatches)
 
             e.preventDefault();
             const formData = new FormData(form.current);
 
-            const username = formData.get('username');
-            const password = formData.get('password');
-            const name = formData.get('name');
-            const age = formData.get('age');
-            const interests = formData.get('interests');
-            const travel_spots = formData.get('travel_spots');
-            const hobbies = formData.get('hobbies');
-            const working_out_boolean = GetRadioValue('working_out');
+            // Extract form data
+            const userProfile = {
+                username: formData.get('username'),
+                password: formData.get('password'),
+                name: formData.get('name'),
+                age: Number(formData.get('age')),
+                interests: formData.get('interests').split(','),
+                travel_spots: formData.get('travel_spots').split(','),
+                hobbies: formData.get('hobbies').split(','),
+                working_out: formData.get('working_out') === "yes",
+            };
 
             console.log("Form has been submitted!");
-
-            const age_int = Number(age);
-            const interests_array = interests.split(',');
-            const travel_spots_array = travel_spots.split(',');
-            const hobbies_array = hobbies.split(',');
 
             fetch('http://localhost:3000/userprofile', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                    name: name,
-                    age: age_int,
-                    interests: interests_array,
-                    travel_spots: travel_spots_array,
-                    hobbies: hobbies_array,
-                    working_out: working_out_boolean,
-                }),
-            }).catch((error) => console.error("Error fetching profile: ", error));
+                body: JSON.stringify(userProfile),
+            }).catch((error) => console.error("Error updating profile: ", error));
         };
 
         return (
@@ -127,14 +122,15 @@ function App() {
                 <h1>Fill out your user profile!</h1>
                 <div className="profile-input">
                     <form id="userProfile" ref={form} onSubmit={handleSubmit}>
+                        {/* Form fields */}
                         <label htmlFor="username">Username:</label><br />
                         <input type="text" id="username" name="username" /><br />
                         <label htmlFor="password">Password:</label><br />
-                        <input type="text" id="password" name="password" /><br />
+                        <input type="password" id="password" name="password" /><br /> {/* Changed input type to password */}
                         <label htmlFor="name">Name:</label><br />
                         <input type="text" id="name" name="name" /><br />
                         <label htmlFor="age">Age:</label><br />
-                        <input type="text" id="age" name="age" /><br />
+                        <input type="number" id="age" name="age" /><br /> {/* Changed input type to number */}
                         <label htmlFor="interests">Interests:</label><br />
                         <input type="text" id="interests" name="interests" /><br />
                         <label htmlFor="travel_spots">Travel Spots:</label><br />
@@ -143,9 +139,9 @@ function App() {
                         <input type="text" id="hobbies" name="hobbies" /><br />
                         <label htmlFor="working_out">Working Out:</label><br />
                         <input type="radio" id="working_out_yes" name="working_out" value="yes" />
-                        <label htmlFor="yes">Yes</label><br />
+                        <label htmlFor="working_out_yes">Yes</label><br />
                         <input type="radio" id="working_out_no" name="working_out" value="no" />
-                        <label htmlFor="no">No</label><br />
+                        <label htmlFor="working_out_no">No</label><br />
 
                         <input type="submit" value="Submit" />
                     </form>
@@ -154,61 +150,29 @@ function App() {
         );
     }
 
-    function GetRadioValue(working_out) {
-        var radio = document.forms[0].elements[working_out];
-        for (var i = 0; i < radio.length; i++) {
-            if (radio[i].checked) {
-                if (radio[i].value === "yes") {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
+    // Display user matches
     function RevealUserMatches() {
         return (
             <div className="nearby-users">
                 <h1>Matches Near You:</h1>
-                <div className="match1">
-                    <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-                        width={50}
-                        height={50}
-                        alt="usericon" />
-                        <p>{buddies[0] !== undefined ? buddies[0].name : 'NAME'}</p></center>
-                    <p>Age: {buddies[0] !== undefined ? buddies[0].age : ''}</p>
-                    <p>Interests: {buddies[0] !== undefined ? buddies[0].interests : ''}</p>
-                    <p>Travel Spots: {buddies[0] !== undefined ? buddies[0].travel_spots : ''}</p>
-                    <p>Hobbies: {buddies[0] !== undefined ? buddies[0].hobbies : ''}</p>
-                    <p>Working Out: {buddies[0] !== undefined ? String(buddies[0].working_out) : ''}</p>
-                    <p>Distance: With 25 miles</p>
-                </div>
-                <div className="match2">
-                    <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-                        width={50}
-                        height={50}
-                        alt="usericon" />
-                        <p>{buddies[1] !== undefined ? buddies[1].name : 'NAME'}</p></center>
-                    <p>Age: {buddies[1] !== undefined ? buddies[1].age : ''}</p>
-                    <p>Interests: {buddies[1] !== undefined ? buddies[1].interests : ''}</p>
-                    <p>Travel Spots: {buddies[1] !== undefined ? buddies[1].travel_spots : ''}</p>
-                    <p>Hobbies: {buddies[1] !== undefined ? buddies[1].hobbies : ''}</p>
-                    <p>Working Out: {buddies[1] !== undefined ? String(buddies[1].working_out) : ''}</p>
-                    <p>Distance: Within 25 miles</p>
-                </div>
-                <div className="match3">
-                    <center><img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
-                        width={50}
-                        height={50}
-                        alt="usericon" />
-                        <p>{buddies[2] !== undefined ? buddies[2].name : 'NAME'}</p></center>
-                    <p>Age: {buddies[2] !== undefined ? buddies[2].age : ''}</p>
-                    <p>Interests: {buddies[2] !== undefined ? buddies[2].interests : ''}</p>
-                    <p>Travel Spots: {buddies[2] !== undefined ? buddies[2].travel_spots : ''}</p>
-                    <p>Hobbies: {buddies[2] !== undefined ? buddies[2].hobbies : ''}</p>
-                    <p>Working Out: {buddies[2] !== undefined ? String(buddies[2].working_out) : ''}</p>
-                    <p>Distance: Within 25 miles</p>
-                </div>
+                {/* Display matches dynamically */}
+                {buddies.map((buddy, index) => (
+                    <div className={`match${index + 1}`} key={index}>
+                        <center>
+                            <img src="https://openclipart.org/download/247324/abstract-user-flat-1.svg"
+                                width={50}
+                                height={50}
+                                alt="usericon" />
+                            <p>{buddy.name}</p>
+                        </center>
+                        <p>Age: {buddy.age}</p>
+                        <p>Interests: {buddy.interests.join(', ')}</p>
+                        <p>Travel Spots: {buddy.travel_spots.join(', ')}</p>
+                        <p>Hobbies: {buddy.hobbies.join(', ')}</p>
+                        <p>Working Out: {String(buddy.working_out)}</p>
+                        <p>Distance: Within 25 miles</p>
+                    </div>
+                ))}
             </div>
         )
     }

@@ -22,7 +22,7 @@ function App() {
     const longitude = position.coords.longitude;
     setLocation({ latitude, longitude });
 
-    fetch('http://localhost:3000/updateLocation', {
+    fetch('https://usermatch-709c257613de.herokuapp.com/updateLocation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ function App() {
 
   useEffect(() => {
     if (location) {
-      const url = 'http://localhost:3000/possiblematches' + '?latitude=' + location.latitude + '&longitude=' + location.longitude + '&username=albert';
+      const url = `https://usermatch-709c257613de.herokuapp.com/possiblematches?latitude=${location.latitude}&longitude=${location.longitude}&username=my_user`;
       fetch(url, {
         method: 'GET',
       }).then(
@@ -83,7 +83,7 @@ function App() {
       const travel_spots_array = travel_spots.split(',');
       const hobbies_array = hobbies.split(',');
 
-      fetch('http://localhost:3000/userprofile', {
+      fetch('https://usermatch-709c257613de.herokuapp.com/userprofile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -188,10 +188,11 @@ function App() {
         <p>Working Out: {buddies[2] !== undefined ? String(buddies[2].working_out) : ''}</p>
         <p>Distance: Within 25 miles</p>
       </div>
-        <button onClick={() => {
+        <center><button onClick={() => {
                     setShowForm((showForm) => !showForm)
                     setShowMatches((showMatches) => !showMatches)
-                }} id="again-button">Try Again</button>
+                }} id="back-button">Back</button>
+        </center>
     </div>
     )
   }
